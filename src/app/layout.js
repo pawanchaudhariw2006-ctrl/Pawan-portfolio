@@ -1,3 +1,4 @@
+import Navbar from '@/app/components/Navbar';
 import './globals.css';
 
 export const metadata = {
@@ -8,8 +9,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* Added suppressHydrationWarning here */}
       <body className="antialiased bg-black text-white" suppressHydrationWarning={true}>
+        <Navbar />
         {children}
       </body>
     </html>

@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FaLinkedinIn, FaInstagram, FaGithub } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-import { HiMenu, HiX } from 'react-icons/hi';
 import Link from 'next/link';
 
 // Custom Typewriter Hook
@@ -45,7 +44,6 @@ function useTypewriter(words, speed = 80, pause = 1800) {
 export default function Home() {
   const imgSrc = "/pawan.jpg";
   const canvasRef = useRef(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const typewriter = useTypewriter([
     "AI Engineer",
@@ -66,7 +64,6 @@ export default function Home() {
 
       const W = window.innerWidth;
       const H = window.innerHeight;
-      const isMobile = W < 1024;
 
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
       renderer.setSize(W, H);
@@ -79,14 +76,8 @@ export default function Home() {
       scene.fog = new THREE.FogExp2(0x000000, 0.03);
 
       const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-      // Reposition camera slightly further back on mobile for subtle background fit
-      if (isMobile) {
-        camera.position.set(0, 0, 16);
-        camera.lookAt(0, 0, 0);
-      } else {
-        camera.position.set(8, 0.5, 11);
-        camera.lookAt(6, 0, 0);
-      }
+      camera.position.set(8, 0.5, 11);
+      camera.lookAt(6, 0, 0);
 
       // Lights
       scene.add(new THREE.AmbientLight(0x1a1a6e, 1.2));
@@ -111,12 +102,7 @@ export default function Home() {
       scene.add(rim);
 
       const group = new THREE.Group();
-      if (isMobile) {
-        group.position.set(0, 2, -4);
-        group.scale.set(0.65, 0.65, 0.65);
-      } else {
-        group.position.set(7, 0, -2);
-      }
+      group.position.set(7, 0, -2);
       scene.add(group);
 
       const sphereData = [
@@ -188,22 +174,8 @@ export default function Home() {
       window.addEventListener('mousemove', onMouseMove);
 
       const onResize = () => {
-        const newW = window.innerWidth;
-        const newH = window.innerHeight;
-        renderer.setSize(newW, newH);
-        camera.aspect = newW / newH;
-
-        if (newW < 1024) {
-          camera.position.set(0, 0, 16);
-          camera.lookAt(0, 0, 0);
-          group.position.set(0, 2, -4);
-          group.scale.set(0.65, 0.65, 0.65);
-        } else {
-          camera.position.set(8, 0.5, 11);
-          camera.lookAt(6, 0, 0);
-          group.position.set(7, 0, -2);
-          group.scale.set(1, 1, 1);
-        }
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
       };
       window.addEventListener('resize', onResize);
@@ -236,18 +208,6 @@ export default function Home() {
     };
   }, []);
 
-  const navLinks = [
-    { name: "Home", href: "/", active: true },
-    { name: "Projects", href: "/projects" },
-    { name: "Skills", href: "/skills" },
-    { name: "Internship", href: "/internship" },
-    { name: "Certificates", href: "/certificates" },
-    { name: "Resume", href: "/resume" },
-    { name: "Publications", href: "/publications" },
-    { name: "About Me", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
@@ -259,89 +219,23 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black overflow-x-hidden relative">
+    <div className="bg-black text-white min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black overflow-x-hidden relative pt-20">
 
       {/* THREE.JS BACKGROUND CANVAS */}
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 bg-black" />
 
-      {/* NAVIGATION BAR */}
-      <nav className="w-full p-4 md:p-6 lg:px-12 flex justify-between items-center z-50 bg-black/40 backdrop-blur-md lg:bg-transparent sticky top-0 lg:relative border-b border-white/5 lg:border-none">
-        <div className="flex items-center gap-3">
-          <div className="bg-cyan-500 text-black font-black p-2 md:p-2.5 rounded text-base md:text-lg">PC</div>
-          <span className="text-lg md:text-[22px] font-bold uppercase text-neutral-200 lg:text-neutral-400 leading-tight">
-            Pawan Chaudhari <br />
-            <span className="text-neutral-400 lg:text-neutral-600 text-xs md:text-[14px] tracking-wide">AI • ML • Developer</span>
-          </span>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex flex-wrap justify-center gap-6 text-[16px] font-bold uppercase tracking-wider items-center">
-          {navLinks.map((link) => (
-            link.active ? (
-              <span key={link.name} className="text-white cursor-default border-b-2 border-cyan-500 pb-0.5">{link.name}</span>
-            ) : (
-              <Link key={link.name} href={link.href} className="text-gray-400 hover:text-white transition">{link.name}</Link>
-            )
-          ))}
-        </div>
-
-        {/* Mobile Hamburger Toggle Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="lg:hidden text-white text-3xl focus:outline-none p-1"
-          aria-label="Toggle Menu"
-        >
-          {isMenuOpen ? <HiX /> : <HiMenu />}
-        </button>
-      </nav>
-
-      {/* MOBILE MENU OVERLAY */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 bg-black/95 z-40 flex flex-col justify-between pt-24 pb-12 px-6 lg:hidden"
-          >
-            <div className="flex flex-col items-center gap-6 text-center">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`text-xl font-medium tracking-wide transition ${
-                    link.active ? "text-cyan-400 font-bold" : "text-neutral-300 hover:text-white"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="text-white text-4xl self-center p-2 rounded-full border border-white/20 mt-6"
-            >
-              <HiX />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* MAIN HERO CONTENT */}
-      <main className="flex-grow flex flex-col justify-center items-center px-4 md:px-24 py-6 md:py-10 z-10">
+      <main className="flex-grow flex flex-col justify-center items-center px-4 md:px-24 py-10 z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col lg:flex-row items-center gap-8 lg:gap-24 max-w-7xl w-full"
+          className="flex flex-col lg:flex-row items-center gap-12 lg:gap-24 max-w-7xl w-full"
         >
           {/* Profile Image with Motion Glow Ring */}
           <motion.div variants={itemVariants} className="relative z-10 flex-shrink-0">
             <div
-              className="w-56 h-56 sm:w-72 sm:h-72 md:w-[400px] md:h-[400px] rounded-full border-2 border-dashed border-cyan-500/40 p-3 sm:p-4 flex items-center justify-center"
+              className="w-64 h-64 sm:w-72 sm:h-72 md:w-[400px] md:h-[400px] rounded-full border-2 border-dashed border-cyan-500/40 p-4 flex items-center justify-center"
               style={{ boxShadow: '0 0 60px rgba(34,211,238,0.15)' }}
             >
               <motion.div
@@ -365,20 +259,20 @@ export default function Home() {
 
           {/* Text Content */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1 z-10">
-            <motion.h1 variants={itemVariants} className="text-3xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-3 md:mb-6 leading-tight lg:leading-none">
-              Hi, I'm <span className="text-cyan-400">Pawan Chaudhari</span>
+            <motion.h1 variants={itemVariants} className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-none">
+              Hi, I'm <span className="text-cyan-400">Pawan<br />Chaudhari</span>
             </motion.h1>
 
             {/* Dynamic Typewriter */}
-            <motion.div variants={itemVariants} className="mb-6 md:mb-8 h-8 sm:h-10 flex items-center">
-              <span className="text-base sm:text-xl md:text-2xl font-bold uppercase tracking-widest text-neutral-300">
+            <motion.div variants={itemVariants} className="mb-8 h-10 flex items-center">
+              <span className="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-widest text-neutral-300">
                 {typewriter}
-                <span className="inline-block w-[3px] h-5 sm:h-6 bg-cyan-400 ml-1 animate-pulse" />
+                <span className="inline-block w-[3px] h-6 bg-cyan-400 ml-1 animate-pulse" />
               </span>
             </motion.div>
 
             {/* Skill Badges */}
-            <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 md:gap-5 mb-8 md:mb-10">
+            <motion.div variants={itemVariants} className="flex flex-wrap justify-center lg:justify-start gap-3 md:gap-5 mb-10">
               {[
                 "Artificial Intelligence",
                 "Problem-Solving",
@@ -390,7 +284,7 @@ export default function Home() {
                 <motion.span
                   whileHover={{ scale: 1.05, backgroundColor: 'rgba(34,211,238,0.15)' }}
                   key={tag}
-                  className="px-3 py-1.5 md:px-5 md:py-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-cyan-100 text-xs sm:text-sm md:text-[18px] font-bold uppercase tracking-wide cursor-default transition-colors"
+                  className="px-4 py-2 md:px-5 md:py-2 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-cyan-100 text-xs sm:text-sm md:text-[18px] font-bold uppercase tracking-wide cursor-default transition-colors"
                 >
                   {tag}
                 </motion.span>
@@ -398,7 +292,7 @@ export default function Home() {
             </motion.div>
 
             {/* Information Cards Grid */}
-            <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-8 w-full">
+            <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8 w-full">
               {[
                 {
                   label: "📍 Location",
@@ -422,25 +316,25 @@ export default function Home() {
                 <motion.div
                   whileHover={{ y: -6, boxShadow: '0 0 25px rgba(34,211,238,0.2)' }}
                   key={i}
-                  className="p-4 sm:p-5 rounded-2xl flex flex-col items-center justify-center text-center min-h-[90px] transition-all"
+                  className="p-5 rounded-2xl flex flex-col items-center justify-center text-center min-h-[100px] transition-all"
                   style={{
                     background: 'rgba(255,255,255,0.04)',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255,255,255,0.08)',
                   }}
                 >
-                  <p className={`text-xs sm:text-[15px] font-black uppercase tracking-widest mb-1 sm:mb-2 ${item.color}`}>
+                  <p className={`text-[15px] font-black uppercase tracking-widest mb-2 ${item.color}`}>
                     {item.label}
                   </p>
                   {item.link ? (
                     <a
                       href={item.link}
-                      className="text-neutral-100 text-xs sm:text-[15px] font-bold leading-tight break-all hover:text-cyan-400 transition"
+                      className="text-neutral-100 text-[15px] font-bold leading-tight break-all hover:text-cyan-400 transition"
                     >
                       {item.val}
                     </a>
                   ) : (
-                    <p className="text-neutral-100 text-xs sm:text-[15px] font-bold leading-tight">{item.val}</p>
+                    <p className="text-neutral-100 text-[15px] font-bold leading-tight">{item.val}</p>
                   )}
                 </motion.div>
               ))}
@@ -456,13 +350,13 @@ export default function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row justify-between w-full max-w-7xl items-center gap-6 md:gap-8"
+          className="flex flex-col md:flex-row justify-between w-full max-w-7xl items-center gap-8"
         >
-          <div className="flex flex-col items-center gap-3 md:gap-4">
+          <div className="flex flex-col items-center gap-4">
             <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">
               Connect with me
             </span>
-            <div className="flex gap-4 md:gap-12">
+            <div className="flex gap-6 md:gap-12">
               {[
                 { id: 'LinkedIn', icon: <FaLinkedinIn />, url: "https://www.linkedin.com/in/pawan-chaudhari-a9642a2a7" },
                 { id: 'Email', icon: <MdEmail />, url: "mailto:pawanchaudhariw2006@gmail.com" },
@@ -475,20 +369,20 @@ export default function Home() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center hover:border-cyan-500 hover:text-cyan-400 transition-all cursor-pointer"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center hover:border-cyan-500 hover:text-cyan-400 transition-all cursor-pointer"
                   style={{
                     background: 'rgba(255,255,255,0.05)',
                     border: '1px solid rgba(255,255,255,0.1)',
                     backdropFilter: 'blur(10px)',
                   }}
                 >
-                  <span className="text-2xl md:text-[36px]">{social.icon}</span>
+                  <span className="text-[28px] md:text-[36px]">{social.icon}</span>
                 </motion.a>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-3 md:gap-4">
+          <div className="flex flex-col items-center gap-4">
             <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">
               See what I'm doing
             </span>
@@ -498,20 +392,20 @@ export default function Home() {
               href="https://github.com/pawanchaudhariw2006-ctrl"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center hover:border-cyan-500 hover:text-cyan-400 transition-all cursor-pointer"
+              className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center hover:border-cyan-500 hover:text-cyan-400 transition-all cursor-pointer"
               style={{
                 background: 'rgba(255,255,255,0.05)',
                 border: '1px solid rgba(255,255,255,0.1)',
                 backdropFilter: 'blur(10px)',
               }}
             >
-              <span className="text-2xl md:text-[36px]"><FaGithub /></span>
+              <span className="text-[28px] md:text-[36px]"><FaGithub /></span>
             </motion.a>
           </div>
         </motion.div>
 
         <div className="border-t border-white/10 w-full text-center pt-4">
-          <p className="text-xs md:text-[14px] text-neutral-500 font-medium tracking-wide">
+          <p className="text-[14px] text-neutral-500 font-medium tracking-wide">
             © 2026 Pawan Chaudhari — FEAT DMIHER — Built with React and Next.js
           </p>
         </div>

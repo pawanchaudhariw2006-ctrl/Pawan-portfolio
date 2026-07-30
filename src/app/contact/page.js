@@ -1,13 +1,23 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaLinkedinIn, FaInstagram, FaGithub, FaWhatsapp, FaPaperPlane } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-import Link from 'next/link';
 
 export default function ContactPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLaptop, setIsLaptop] = useState(false);
+
+  // Check if screen is laptop size (1024px or wider)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLaptop(window.innerWidth >= 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -35,41 +45,15 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased">
+    <div className="bg-black text-white min-h-screen w-full font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased pt-20 md:pt-24 flex flex-col justify-between">
 
-      {/* NAVIGATION BAR */}
-      <nav className="w-full p-6 md:px-12 flex justify-between items-center z-[100] fixed top-0 left-0 right-0 bg-black border-b border-neutral-900">
-        <div className="flex items-center gap-3">
-          <div className="bg-cyan-500 text-black font-black p-2.5 px-3.5 rounded text-lg">PC</div>
-          <span className="text-[22px] font-bold uppercase text-neutral-400 leading-tight">
-            Pawan Chaudhari <br />
-            <span className="text-neutral-600 text-[14px] tracking-wide">AI • ML • Developer</span>
-          </span>
-        </div>
-        
-        <div className="flex gap-4 md:gap-6 text-[16px] font-bold uppercase tracking-wider items-center whitespace-nowrap">
-          <Link href="/" className="text-gray-400 hover:text-white transition whitespace-nowrap">Home</Link>
-          <Link href="/projects" className="text-gray-400 hover:text-white transition whitespace-nowrap">Projects</Link>
-          
-          {/* Highlighted for this page */}
-          <Link href="/skills" className="text-gray-400 hover:text-white transition whitespace-nowrap">skills</Link>
-          
-          
-          <Link href="/internship" className="text-gray-400 hover:text-white transition whitespace-nowrap">Internship</Link>
-          <Link href="/certificates" className="text-gray-400 hover:text-white transition whitespace-nowrap">Certificates</Link>
-          <Link href="/resume" className="text-gray-400 hover:text-white transition whitespace-nowrap">Resume</Link>
-          <Link href="/publications" className="text-gray-400 hover:text-white transition whitespace-nowrap">Publications</Link>
-          <Link href="/about" className="text-gray-400 hover:text-white transition whitespace-nowrap">About Me</Link>
-          <span className="text-white cursor-default whitespace-nowrap border-b-2 border-cyan-500 pb-0.5">Contact</span>
-        </div>
-      </nav>
-
-      {/* MAIN CONTENT AREA */}
+      {/* MAIN CONTENT AREA WITH ZOOM APPLIED HERE */}
       <motion.main 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-4xl mx-auto px-6 pt-36 pb-20 relative z-10 w-full flex-grow space-y-12"
+        style={isLaptop ? { zoom: 0.75 } : {}}
+        className="max-w-4xl mx-auto px-6 py-12 relative z-10 w-full flex-grow space-y-12"
       >
         
         {/* HEADER SECTION */}
@@ -158,7 +142,6 @@ export default function ContactPage() {
 
       </motion.main>
 
-     
     </div>
   );
 }

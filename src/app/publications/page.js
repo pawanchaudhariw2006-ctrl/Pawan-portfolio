@@ -1,19 +1,29 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
 import { 
   FaBookOpen, FaExternalLinkAlt, FaCalendarAlt, 
   FaUniversity, FaUserGraduate, FaQuoteRight,
   FaSearch, FaChevronDown, FaChevronUp, FaMicrochip,
-  FaShieldAlt, FaHeartbeat, FaLayerGroup, FaAward
+  FaShieldAlt, FaHeartbeat, FaAward
 } from 'react-icons/fa';
 
 export default function PublicationsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedId, setExpandedId] = useState(null);
+  const [isLaptop, setIsLaptop] = useState(false);
+
+  // Check if screen is laptop size (1024px or wider)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLaptop(window.innerWidth >= 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const categories = ["All", "AI & Healthcare", "Cybersecurity", "Smart Systems"];
 
@@ -105,37 +115,17 @@ export default function PublicationsPage() {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased">
-
-      {/* NAVIGATION BAR */}
-      <nav className="w-full p-6 md:px-12 flex justify-between items-center z-[100] fixed top-0 left-0 right-0 bg-black border-b border-neutral-900">
-        <div className="flex items-center gap-3">
-          <div className="bg-cyan-500 text-black font-black p-2.5 px-3.5 rounded text-lg shadow-lg shadow-cyan-500/20">PC</div>
-          <span className="text-[22px] font-bold uppercase text-neutral-400 leading-tight">
-            Pawan Chaudhari <br />
-            <span className="text-neutral-600 text-[14px] tracking-wide">AI • ML • Developer</span>
-          </span>
-        </div>
-        
-        <div className="flex gap-4 md:gap-6 text-[16px] font-bold uppercase tracking-wider items-center whitespace-nowrap">
-          <Link href="/" className="text-gray-400 hover:text-white transition whitespace-nowrap">Home</Link>
-          <Link href="/projects" className="text-gray-400 hover:text-white transition whitespace-nowrap">Projects</Link>
-          <Link href="/skills" className="text-gray-400 hover:text-white transition whitespace-nowrap">Skills</Link>
-          <Link href="/Internship" className="text-gray-400 hover:text-white transition whitespace-nowrap">Internship</Link>
-          <Link href="/certificates" className="text-gray-400 hover:text-white transition whitespace-nowrap">Certificates</Link>
-          <Link href="/resume" className="text-gray-400 hover:text-white transition whitespace-nowrap">Resume</Link>
-          <span className="text-white cursor-default whitespace-nowrap border-b-2 border-cyan-500 pb-0.5">Publications</span>
-          <Link href="/about" className="text-gray-400 hover:text-white transition whitespace-nowrap">About Me</Link>
-          <Link href="/contact" className="text-gray-400 hover:text-white transition whitespace-nowrap">Contact</Link>
-        </div>
-      </nav>
+    <div 
+      className="bg-black text-white min-h-screen font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased pt-20 md:pt-24"
+      style={isLaptop ? { zoom: 0.75 } : {}}
+    >
 
       {/* MAIN CONTENT AREA */}
       <motion.main 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-5xl mx-auto px-6 pt-32 pb-24 relative z-10 space-y-10"
+        className="max-w-5xl mx-auto px-6 py-12 relative z-10 space-y-10"
       >
         
         {/* HEADER SECTION */}
@@ -352,8 +342,6 @@ export default function PublicationsPage() {
         </section>
 
       </motion.main>
-
-      
     </div>
   );
 }

@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { FaGithub, FaExternalLinkAlt, FaFigma } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 export default function ProjectsPage() {
   const containerVariants = {
@@ -56,34 +55,10 @@ export default function ProjectsPage() {
       tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
       accentText: "text-cyan-400"
     },
-    
   ];
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased">
-
-      {/* NAVIGATION */}
-      <nav className="w-full p-6 md:px-12 flex justify-between items-center z-50 sticky top-0 bg-black border-b border-neutral-900">
-        <div className="flex items-center gap-3">
-          <div className="bg-cyan-500 text-black font-black p-2.5 px-3.5 rounded text-lg shadow-lg shadow-cyan-500/20">PC</div>
-          <span className="text-[22px] font-bold uppercase text-neutral-400 leading-tight">
-            Pawan Chaudhari <br />
-            <span className="text-neutral-600 text-[14px] tracking-wide">AI • ML • Developer</span>
-          </span>
-        </div>
-        
-        <div className="flex gap-4 md:gap-6 text-[16px] font-bold uppercase tracking-wider items-center whitespace-nowrap">
-          <Link href="/" className="text-gray-400 hover:text-white transition whitespace-nowrap">Home</Link>
-          <span className="text-white cursor-default whitespace-nowrap border-b-2 border-cyan-500 pb-0.5">Projects</span>
-          <Link href="/skills" className="text-gray-400 hover:text-white transition whitespace-nowrap">Skills</Link>
-          <Link href="/internship" className="text-gray-400 hover:text-white transition whitespace-nowrap">Internship</Link>
-          <Link href="/certificates" className="text-gray-400 hover:text-white transition whitespace-nowrap">Certificates</Link>
-          <Link href="/resume" className="text-gray-400 hover:text-white transition whitespace-nowrap">Resume</Link>
-          <Link href="/publications" className="text-gray-400 hover:text-white transition whitespace-nowrap">Publications</Link>
-          <Link href="/about" className="text-gray-400 hover:text-white transition whitespace-nowrap">About Me</Link>
-          <Link href="/contact" className="text-gray-400 hover:text-white transition whitespace-nowrap">Contact</Link>
-        </div>
-      </nav>
+    <div className="bg-black text-white min-h-screen font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased pt-20 md:pt-24">
 
       <motion.main 
         variants={containerVariants}
@@ -156,8 +131,7 @@ export default function ProjectsPage() {
           ))}
         </div>
       </motion.main>
-
       
     </div>
   );
-}   
+}
