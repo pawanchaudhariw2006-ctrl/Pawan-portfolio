@@ -1,137 +1,158 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
+// Projects Data Array
+const projects = [
+  {
+    title: "Glaucoma Project",
+    category: "AI & HEALTHCARE",
+    description: "An AI-powered Glaucoma Detection System using CNN (TensorFlow/Keras) and Flask. Detects glaucoma from retinal fundus images with MongoDB integration.",
+    tech: ["PYTHON", "TENSORFLOW", "KERAS", "FLASK", "MONGODB"],
+    github: "https://github.com/pawanchaudhariw2006-ctrl",
+    demo: "",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80",
+    glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
+    borderColor: "group-hover:border-cyan-500/40",
+    tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    accentText: "text-cyan-400"
+  },
+  {
+    title: "Fake Audio & Video Identification",
+    category: "DEEP LEARNING & SECURITY",
+    description: "Deep learning system to detect deepfake audio and video content using spectrogram analysis and frame-level inspection. Built with Streamlit.",
+    tech: ["PYTHON", "DEEP LEARNING", "STREAMLIT", "OPENCV"],
+    github: "https://github.com/pawanchaudhariw2006-ctrl",
+    demo: "",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+    glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
+    borderColor: "group-hover:border-cyan-500/40",
+    tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    accentText: "text-cyan-400"
+  },
+  {
+    title: "ABSAS",
+    category: "DATA SCIENCE & NLP",
+    description: "Aspect-Based Sentiment Analysis System built to parse textual components and map multi-layered context tracking targets using machine learning pipelines.",
+    tech: ["PYTHON", "NLP", "SCIKIT-LEARN", "ML"],
+    github: "https://github.com/pawanchaudhariw2006-ctrl",
+    demo: "",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
+    borderColor: "group-hover:border-cyan-500/40",
+    tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    accentText: "text-cyan-400"
+  },
+  {
+    title: "3D Portfolio",
+    category: "FULL STACK & 3D GRAPHICS",
+    description: "A high-performance personal portfolio showcasing AI/ML projects and research. Features interactive Three.js 3D graphics, Framer Motion animations, and custom UI components.",
+    tech: ["NEXT.JS", "REACT", "THREE.JS", "TAILWIND CSS", "FRAMER MOTION"],
+    github: "https://github.com/pawanchaudhariw2006-ctrl/Pawan-portfolio",
+    demo: "",
+    image: "https://png.pngtree.com/thumb_back/fh260/background/20230527/pngtree-an-animated-illustration-that-features-a-young-man-playing-a-game-image_2680953.jpg",
+    glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
+    borderColor: "group-hover:border-cyan-500/40",
+    tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    accentText: "text-cyan-400"
+  }
+];
+
 export default function ProjectsPage() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
-  };
-
-  const projectVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-  };
-
-  const projects = [
-    {
-      title: "Glaucoma Project",
-      category: "AI & Healthcare",
-      description: "An AI-powered Glaucoma Detection System using CNN (TensorFlow/Keras) and Flask. Detects glaucoma from retinal fundus images with MongoDB integration.",
-      tech: ["Python", "TensorFlow", "Keras", "Flask", "MongoDB"],
-      link: "https://github.com/pawanchaudhariw2006-ctrl/Glaucoma_Project",
-      github: "https://github.com/pawanchaudhariw2006-ctrl/Glaucoma_Project",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600&auto=format&fit=crop",
-      glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
-      borderColor: "group-hover:border-cyan-500/40",
-      tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-      accentText: "text-cyan-400"
-    },
-    {
-      title: "Fake Audio & Video Identification",
-      category: "Deep Learning & Security",
-      description: "Deep learning system to detect deepfake audio and video content using spectrogram analysis and frame-level inspection. Built with Streamlit.",
-      tech: ["Python", "Deep Learning", "Streamlit", "OpenCV"],
-      link: "https://github.com/pawanchaudhariw2006-ctrl/Fake-Audio-and-Video-Identification",
-      github: "https://github.com/pawanchaudhariw2006-ctrl/Fake-Audio-and-Video-Identification",
-      image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=600&auto=format&fit=crop",
-      glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
-      borderColor: "group-hover:border-cyan-500/40",
-      tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-      accentText: "text-cyan-400"
-    },
-    {
-      title: "ABSAS",
-      category: "Data Science & NLP",
-      description: "Aspect-Based Sentiment Analysis System built to parse textual components and map multi-layered context tracking targets using machine learning pipelines.",
-      tech: ["Python", "NLP", "Scikit-Learn", "ML"],
-      link: "https://github.com/pawanchaudhariw2006-ctrl/ABSAS",
-      github: "https://github.com/pawanchaudhariw2006-ctrl/ABSAS",
-      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
-      glowColor: "group-hover:shadow-[0_0_40px_rgba(34,211,238,0.2)]",
-      borderColor: "group-hover:border-cyan-500/40",
-      tagBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-      accentText: "text-cyan-400"
-    },
-  ];
-
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-cyan-500 selection:text-black relative overflow-x-hidden antialiased pt-20 md:pt-24">
-
-      <motion.main 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="max-w-7xl mx-auto px-6 py-12 relative z-10 space-y-10"
-      >
-        <header className="text-left space-y-2">
-          <motion.h1 variants={projectVariants} className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white">
-            Featured <span className="text-cyan-400">Projects</span>
-          </motion.h1>
-          <motion.p variants={projectVariants} className="text-neutral-400 text-sm md:text-base max-w-2xl">
+    <main className="min-h-screen bg-black text-white px-6 md:px-16 py-24">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Section Header */}
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase mb-3">
+            FEATURED <span className="text-cyan-400">PROJECTS</span>
+          </h1>
+          <p className="text-neutral-400 text-sm md:text-base max-w-2xl">
             A showcase of Machine Learning systems, AI in healthcare, cybersecurity tools, and interactive UI/UX designs.
-          </motion.p>
-        </header>
+          </p>
+        </div>
 
-        {/* 3-COLUMN PROJECTS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <motion.div 
-              key={index}
-              variants={projectVariants}
-              whileHover={{ y: -6 }}
-              className={`group relative bg-black rounded-[24px] overflow-hidden border border-neutral-800 transition-all duration-500 ${project.borderColor} ${project.glowColor}`}
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {projects.map((project, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              className={`group bg-neutral-950 border border-neutral-800 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 ${project.borderColor} ${project.glowColor}`}
             >
-              {/* Image Container */}
-              <div className="aspect-video w-full overflow-hidden relative border-b border-neutral-800 bg-black">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-all duration-500 opacity-90 group-hover:opacity-100 group-hover:scale-105" 
-                />
-              </div>
+              <div>
+                {/* Image Preview */}
+                <div className="h-48 w-full overflow-hidden relative border-b border-neutral-800/80">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
 
-              {/* Details */}
-              <div className="p-5 relative z-20 space-y-3">
-                <div className="flex justify-between items-start gap-2">
-                  <div>
-                    <span className={`text-[10px] font-black uppercase tracking-wider ${project.accentText}`}>
+                {/* Content */}
+                <div className="p-5">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className={`text-[10px] font-bold uppercase tracking-wider ${project.accentText}`}>
                       {project.category}
                     </span>
-                    <h3 className="text-lg font-bold text-white mt-1 tracking-tight line-clamp-1 group-hover:text-cyan-400 transition-colors">
-                      {project.title}
-                    </h3>
-                  </div>
-                  <div className="flex gap-2 flex-shrink-0">
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-black hover:bg-neutral-900 text-neutral-400 hover:text-white transition-all border border-neutral-800">
-                      <FaGithub size={15} />
-                    </a>
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-black hover:bg-neutral-900 text-neutral-400 hover:text-white transition-all border border-neutral-800">
-                      <FaExternalLinkAlt size={13} />
-                    </a>
-                  </div>
-                </div>
 
-                <p className="text-neutral-400 line-clamp-3 text-xs md:text-sm min-h-[54px] font-normal leading-relaxed">
-                  {project.description}
-                </p>
+                    {/* Action Icons */}
+                    <div className="flex gap-2">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="GitHub Repository"
+                          className="p-1.5 text-neutral-400 hover:text-white bg-neutral-900 border border-neutral-800 rounded-lg hover:border-neutral-700 transition"
+                        >
+                          <FaGithub className="w-3.5 h-3.5" />
+                        </a>
+                      )}
 
-                {/* Technology Badges */}
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  {project.tech.map((t) => (
-                    <span key={t} className="text-[9px] font-black uppercase px-2.5 py-1 rounded-full bg-black text-neutral-300 border border-neutral-800 transition-all duration-300 group-hover:border-cyan-500/30">
-                      {t}
-                    </span>
-                  ))}
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="Live Demo"
+                          className="p-1.5 text-neutral-400 hover:text-cyan-400 bg-neutral-900 border border-neutral-800 rounded-lg hover:border-cyan-500/50 transition"
+                        >
+                          <FaExternalLinkAlt className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <h2 className="text-lg font-bold text-white mb-2">{project.title}</h2>
+                  <p className="text-neutral-400 text-xs leading-relaxed mb-4">
+                    {project.description}
+                  </p>
                 </div>
+              </div>
+
+              {/* Tech Stack Badges */}
+              <div className="px-5 pb-5 flex flex-wrap gap-1.5">
+                {project.tech && project.tech.map((item, tIdx) => (
+                  <span
+                    key={tIdx}
+                    className={`px-2 py-0.5 text-[9px] font-bold tracking-wider rounded-md border ${project.tagBg}`}
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
             </motion.div>
           ))}
         </div>
-      </motion.main>
-      
-    </div>
+
+      </div>
+    </main>
   );
 }
